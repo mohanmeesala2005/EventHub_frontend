@@ -5,24 +5,25 @@ const Events = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    API.get('/events')
+    API.post('/events/getevent')
       .then((res) => setEvents(res.data))
       .catch((err) => alert('Failed to load events'));
   }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold mb-4">Upcoming Events</h2>
-      <ul className="space-y-2">
-        {events.map((event) => (
-          <li key={event._id} className="border p-4 rounded shadow">
-            <h3 className="text-lg font-semibold">{event.title}</h3>
-            <p>{event.description}</p>
-            <p className="text-sm text-gray-600">{new Date(event.date).toLocaleString()}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    // ...existing imports...
+<ul className="space-y-2">
+  {events.map((event) => (
+    <li key={event._id} className="border p-4 rounded shadow">
+      <h2 className="text-lg font-semibold">
+        An event by {event.createdByName || "Unknown"} ({event.createdByEmail || "No Email"})
+      </h2>
+      <h3 className="text-lg font-semibold">{event.title}</h3>
+      <p>{event.description}</p>
+      <p className="text-sm text-gray-600">{new Date(event.date).toLocaleString()}</p>
+    </li>
+  ))}
+</ul>
   );
 };
 

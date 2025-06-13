@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import API from '../api/axios'; // axios instance, assumed already configured with baseURL & auth
+import API from '../api/axios';
 
 function CreateEvent() {
   const [formData, setFormData] = useState({
@@ -9,7 +9,6 @@ function CreateEvent() {
   });
   const [message, setMessage] = useState('');
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData(prev => ({
       ...prev,
@@ -17,18 +16,38 @@ function CreateEvent() {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage('');
-  
+    setMessage('Creating event...');
+
+    let user = null;
     try {
-      const response = await API.post('/events', formData);
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        user = JSON.parse(userData);
+        console.log('User data:', user);
+      }
+    } catch (error) {
+      localStorage.removeItem('user');
+    }
+
+    if (!user || !user._id || !user.username || !user.email) {
+      setMessage('User not found. Please log in again.');
+      return;
+    }
+
+    const eventData = {
+      ...formData,
+      createdBy: user._id,
+      createdByName: user.username,
+      createdByEmail: user.email,
+    };
+
+    try {
+      const response = await API.post('/events/create', eventData);
       if (response.status === 201) {
         alert('Event created successfully!');
-        // Optionally reset form or redirect
         setFormData({ title: '', description: '', date: '' });
-        // You can navigate to /events or refresh the events list here
       } else {
         setMessage('Failed to create event.');
       }
@@ -41,13 +60,10 @@ function CreateEvent() {
     }
   };
 
-
   return (
     <div className="p-8 max-w-md mx-auto">
       <h1 className="text-3xl font-bold mb-4">Create Event</h1>
-      
       {message && <p className="mb-4 text-red-600">{message}</p>}
-      
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label className="block">Event Name</label>
@@ -60,7 +76,6 @@ function CreateEvent() {
             required
           />
         </div>
-        
         <div>
           <label className="block">Description</label>
           <textarea
@@ -71,7 +86,6 @@ function CreateEvent() {
             required
           ></textarea>
         </div>
-        
         <div>
           <label className="block">Date</label>
           <input
@@ -83,7 +97,6 @@ function CreateEvent() {
             required
           />
         </div>
-        
         <button
           type="submit"
           className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
