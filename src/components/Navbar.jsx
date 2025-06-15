@@ -20,13 +20,15 @@ const Navbar = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/');
+    window.location.reload();
   };
 
   return (
-    <nav className="fixed top-0 bg-gray-800 text-white px-6 py-3 flex items-center justify-between relative z-10 shadow-md">
+    <div className="sticky top-0 w-full z-50">
+      <nav className=" bg-gray-800 text-white px-6 py-3 flex items-center justify-between relative z-10 shadow-md">
       {/* Logo/Brand */}
       <div className="flex items-center space-x-2">
-        <Link to="/" className="font-bold text-xl hover:underline">EventHub</Link>
+        <Link to="/" className="font-bold text-xl hover:text-gray-300">EventHub</Link>
       </div>
 
       {/* Desktop Menu */}
@@ -35,7 +37,13 @@ const Navbar = () => {
         <Link to="/events" className="hover:underline">Events</Link>
         {user ? (
           <>
-            <Link to="/create-event" className="hover:underline">Create Event</Link>
+            
+            <button
+                    onClick={handleLogout}
+                    className="blockl text-left px-2 py-2 hover:bg-gray-100 text-red-600"
+                  >
+                    Logout
+                  </button>
             {/* Profile Dropdown */}
             <div className="relative">
               <button
@@ -57,18 +65,14 @@ const Navbar = () => {
                     Profile
                   </Link>
                   <Link
-                    to="/events"
+                    to="/myEvents"
                     className="block px-4 py-2 hover:bg-gray-100"
                     onClick={() => setProfileOpen(false)}
                   >
                     My Events
                   </Link>
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                  >
-                    Logout
-                  </button>
+                  <Link to="/create-event" className="block px-4 py-2 hover:bg-gray-100"
+                  onClick={() => setProfileOpen(false)}>Create Event</Link>
                 </div>
               )}
             </div>
@@ -122,6 +126,7 @@ const Navbar = () => {
         </div>
       )}
     </nav>
+    </div>
   );
 };
 
