@@ -1,71 +1,93 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import API from '../api/axios';
-import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
-  const [form, setForm] = useState({ username: '', name: '', email: '', password: '' });
+  const { eventId } = useParams();
+  const [event, setEvent] = useState(null);
+  const [form, setForm] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    // add more fields as needed
+  });
+  const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Fetch event details
+    API.post('/events/getevent')
+      .then(res => {
+        const found = res.data.find(ev => ev._id === eventId);
+        setEvent(found);
+      })
+      .catch(() => setMessage('Failed to load event details'));
+  }, [eventId]);
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    setForm(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post('/auth/register', form);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', JSON.stringify(res.data.user));
-      navigate('/');
+      // Send registration details to backend
+      await API.post('/events/register', {
+        eventId,
+        ...form,
+      });
+      setMessage('Registered successfully!');
+      setTimeout(() => navigate('/'), 1500);
     } catch (err) {
-      alert(err.response?.data?.message || 'Registration failed');
+      setMessage('Registration failed');
     }
   };
 
+  if (!event) return <div className="p-6">Loading event details...</div>;
+
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Register</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          name="username"
-          type="text"
-          placeholder="Username"
-          value={form.username}
-          onChange={handleChange}
-          className="w-full p-2 border"
-          required
-        />
+    <div className="p-8 max-w-md mx-auto">
+      <h1 className="text-2xl font-bold mb-4">Register for {event.title}</h1>
+      <p className="mb-2 text-gray-600">{event.description}</p>
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <input
           name="name"
           type="text"
-          placeholder="Name"
+          placeholder="Your Name"
           value={form.name}
           onChange={handleChange}
-          className="w-full p-2 border"
+          className="w-full p-2 border rounded"
           required
         />
         <input
           name="email"
           type="email"
-          placeholder="Email"
+          placeholder="Your Email"
           value={form.email}
           onChange={handleChange}
-          className="w-full p-2 border"
+          className="w-full p-2 border rounded"
           required
         />
         <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          value={form.password}
+          name="phone"
+          type="text"
+          placeholder="Your Phone"
+          value={form.phone}
           onChange={handleChange}
-          className="w-full p-2 border"
-          required
+          className="w-full p-2 border rounded"
         />
-        <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
+        {/* Add more fields as needed */}
+        <button
+          type="submit"
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+        >
           Register
         </button>
       </form>
+      {message && <p className="mt-4 text-green-600">{message}</p>}
     </div>
   );
 };

@@ -27,10 +27,10 @@ const Profile = () => {
 
     return (
         <div className=" p-8 bg-white rounded shadow">
-            <h1 className="text-2xl font-bold mb-4">Name:{user.name}</h1>
-            <p className="mb-2"><strong>User Name:</strong> {user.username}</p>
+            <h1 className="text-2xl font-bold mb-4">User Name:{user.username}</h1>
+            <p className="mb-2"><strong>Name:</strong> {user.name}</p>
             <p className="mb-2"><strong>Email:</strong> {user.email}</p>
-            <h6><a href="/myEvents" className="mt-4 text-blue-500 hover:underline">View My Events</a></h6>  
+            <button className="mt-4 bg-blue-500 text-white mx-2 px-4 py-2 rounded hover:bg-green-600" onClick={() => window.location.href='/myEvents'}>View your events</button>
             <button
                 onClick={handleLogout}
                 className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"

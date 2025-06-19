@@ -11,11 +11,14 @@ function CreateEvent() {
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
     if (!userData) {
       navigate('/login');
+    } else {
+      setUser(JSON.parse(userData));
     }
   }, [navigate]);
 
@@ -33,16 +36,6 @@ function CreateEvent() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage('Creating event...');
-
-    let user = null;
-    try {
-      const userData = localStorage.getItem('user');
-      if (userData) {
-        user = JSON.parse(userData);
-      }
-    } catch (error) {
-      localStorage.removeItem('user');
-    }
 
     if (!user) {
       navigate('/login');
@@ -73,6 +66,7 @@ function CreateEvent() {
         setFormData({ title: '', description: '', date: '' });
         setImage(null);
         setMessage('');
+        navigate('/myEvents');
       } else {
         setMessage('Failed to create event.');
       }
