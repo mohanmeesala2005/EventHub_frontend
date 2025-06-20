@@ -55,14 +55,14 @@ const Events = () => {
             <p className="text-sm text-gray-600 mt-1">
               {new Date(event.date).toLocaleString()}
             </p>
-            {event.createdByName !== user?.username && (
+            {event.createdByName !== user?.username && user ? (
               <button
                 className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-green-600"
                 onClick={() => navigate(`/register/${event._id}`)}
               >
                 Register
               </button>
-            )}
+            ) : null}
           </div>
         ))}
       </div>
