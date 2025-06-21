@@ -35,10 +35,6 @@ const Home = () => {
           </a>
         </section>
       </main>
-      <footer className="bg-gray-100 text-gray-500 text-center py-4">
-        &copy; {new Date().getFullYear()} EventHub. All rights reserved.
-        
-      </footer>
     </div>
   );
 };

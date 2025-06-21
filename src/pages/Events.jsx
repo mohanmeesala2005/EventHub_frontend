@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
 import API from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import Preloader  from "../components/Preloader";
 
 const Events = () => {
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     API.post("/events/getevent")
-      .then((res) => setEvents(res.data))
+      .then((res) => {
+        setEvents(res.data);
+        setTimeout(() => {
+          setLoading(false);
+        }
+        , 1000); // Simulate loading delay
+      })
       .catch((err) => alert("Failed to load events"));
   }, [navigate]);
+
+  if(loading ) return <Preloader />;
 
   let user = null;
   try {

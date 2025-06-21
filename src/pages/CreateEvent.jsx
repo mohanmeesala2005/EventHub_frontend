@@ -23,7 +23,7 @@ function CreateEvent() {
   }, [navigate]);
 
   const handleChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
