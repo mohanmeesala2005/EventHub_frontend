@@ -10,6 +10,7 @@ import Profile from './pages/profile';
 import MyEvents from './pages/myEvents';
 import Register from './pages/Register';
 import Registrations  from './pages/Registrations';
+import Chatbot from './components/Chatbot';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register/:eventId" element={<Register />} />
         <Route path="/registrations/:eventId" element={<Registrations />} />
       </Routes>
+      <Chatbot />
       <Footer />
     </Router>
   );
