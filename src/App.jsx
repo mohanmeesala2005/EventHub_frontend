@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Login from './pages/Login';
@@ -28,7 +27,6 @@ function App() {
         <Route path="/registrations/:eventId" element={<Registrations />} />
       </Routes>
       <Chatbot />
-      <Footer />
     </Router>
   );
 }

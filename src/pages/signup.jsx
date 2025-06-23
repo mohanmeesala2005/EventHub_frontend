@@ -66,6 +66,7 @@ const signUp = () => {
           Register
         </button>
       </form>
+      <p>Already have an account? <a href='/login' className='text-blue-600'>Login</a></p>
     </div>
   );
 };
