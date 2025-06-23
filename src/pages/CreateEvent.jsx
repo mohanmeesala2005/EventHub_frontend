@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { PrefetchPageLinks, useNavigate } from 'react-router-dom';
 import API from '../api/axios';
+import Preloader from '../components/Preloader';
 
 function CreateEvent() {
   const [formData, setFormData] = useState({
@@ -12,6 +13,7 @@ function CreateEvent() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -20,8 +22,11 @@ function CreateEvent() {
     } else {
       setUser(JSON.parse(userData));
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000); // Simulate loading delay
   }, [navigate]);
-
+  if(loading) return <Preloader />;
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -80,59 +85,92 @@ function CreateEvent() {
   };
 
   return (
-    <div className="p-8 max-w-md mx-auto">
-      <h1 className="text-3xl font-bold mb-4">Create Event</h1>
-      {message && <p className="mb-4 text-red-600">{message}</p>}
-      <form className="space-y-4" onSubmit={handleSubmit} encType="multipart/form-data">
-        <div>
-          <label className="block">Event Name</label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div>
-          <label className="block">Description</label>
-          <textarea
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          ></textarea>
-        </div>
-        <div>
-          <label className="block">Date</label>
-          <input
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
-        <div>
-          <label className="block">Event Image</label>
-          <input
-            type="file"
-            name="image"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-        >
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-white to-purple-200">
+      <div className="bg-white shadow-2xl rounded-2xl p-10 w-full max-w-lg">
+        <h1 className="text-4xl font-extrabold text-purple-700 mb-6 text-center drop-shadow">
           Create Event
-        </button>
-      </form>
+        </h1>
+        {message && (
+          <div className="mb-4 px-4 py-2 bg-red-100 border border-red-300 text-red-700 rounded text-center">
+            {message}
+          </div>
+        )}
+        <form
+          className="space-y-6"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Event Name
+            </label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              className="w-full p-3 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition"
+              placeholder="Enter event name"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Description
+            </label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full p-3 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition resize-none"
+              rows={4}
+              placeholder="Describe your event"
+              required
+            ></textarea>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Date
+            </label>
+            <input
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              className="w-full p-3 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Event Image
+            </label>
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full p-2 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition bg-white"
+            />
+            {image && (
+              <div className="mt-2 flex items-center gap-2">
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt="Preview"
+                  className="h-12 w-12 object-cover rounded shadow"
+                />
+                <span className="text-xs text-gray-500">{image.name}</span>
+              </div>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold py-3 rounded-lg shadow-lg hover:from-purple-600 hover:to-purple-800 transition text-lg"
+          >
+            Create Event
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
