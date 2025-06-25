@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const signUp = () => {
   const [form, setForm] = useState({ username: '', name: '', email: '', password: '' });
   const navigate = useNavigate();
+  const [loading,setLoading] = useState(false);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,10 +18,15 @@ const signUp = () => {
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.user));
       navigate('/');
+      setTimeout(() =>{
+        setLoading(false);
+      },1000);
     } catch (err) {
       alert(err.response?.data?.message || 'Registration failed');
     }
   };
+
+  if(loading) return <Preloader />;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">

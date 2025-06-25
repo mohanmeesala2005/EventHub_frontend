@@ -52,6 +52,7 @@ const MyEvents = () => {
       description: event.description,
       date: event.date ? event.date.slice(0, 10) : '',
       image: null,
+      cost:event.cost,
     });
   };
 
@@ -75,6 +76,7 @@ const MyEvents = () => {
       data.append('title', editForm.title);
       data.append('description', editForm.description);
       data.append('date', editForm.date);
+      data.append('cost', editForm.cost);
       if (editForm.image) {
         data.append('image', editForm.image);
       }
@@ -95,7 +97,10 @@ const MyEvents = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 py-10 px-4">
-      <h1 className="text-3xl font-extrabold text-center mb-10 text-blue-800">My Events</h1>
+      <h1 className="text-3xl font-extrabold text-center mb-5 text-blue-800">My Events</h1>
+      <div className="flex justify-center align-center">
+        <button className="text-balck-500 bg-purple-300 px-4 py-4 my-4 rounded-lg hover:bg-purple-500" onClick={() => navigate('/create-event')}>Create Events</button>
+      </div>
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {events
           .filter(event => event.createdByName === user?.username)
@@ -137,6 +142,13 @@ const MyEvents = () => {
                     required
                   />
                   <input
+                    type="number"
+                    name="cost"
+                    value={editForm.cost}
+                    onChange={handleEditChange}
+                    className="p-2 border rounded"
+                  />
+                  <input
                     type="file"
                     name="image"
                     accept="image/*"
@@ -169,6 +181,7 @@ const MyEvents = () => {
                     <h3 className="text-xl font-bold text-blue-700 mb-1">{event.title}</h3>
                     <p className="text-gray-700 mb-2 line-clamp-2">{event.description}</p>
                     <p className="text-sm text-gray-500 mb-4">{new Date(event.date).toLocaleString()}</p>
+                    <p className="text-sm text-gray-500 mb-4">Cost: ₹{event.cost}</p>
                     <button
                       className="w-full bg-indigo-600 text-white py-2 rounded-lg font-semibold hover:bg-indigo-700 transition mb-2"
                       onClick={() => navigate(`/registrations/${event._id}`)}

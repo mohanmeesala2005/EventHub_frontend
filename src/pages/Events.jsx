@@ -71,6 +71,9 @@ const Events = () => {
                   </span>
                 </p>
                 <p className="text-gray-600 flex-1 mb-2 line-clamp-3">{event.description}</p>
+                {event.cost > 0 ? (
+                  <p className="text-gray-600 flex-1 mb-2 line-clamp-3">Registration Fee: ₹{event.cost}</p>
+                ) : null}
                 <p className="text-xs text-gray-400 mb-3">
                   {new Date(event.date).toLocaleString()}
                 </p>

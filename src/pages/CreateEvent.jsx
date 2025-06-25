@@ -8,6 +8,7 @@ function CreateEvent() {
     title: '',
     description: '',
     date: '',
+    cost: '',
   });
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState('');
@@ -51,6 +52,7 @@ function CreateEvent() {
     data.append('title', formData.title);
     data.append('description', formData.description);
     data.append('date', formData.date);
+    data.append('cost', formData.cost || 0);
     data.append('createdBy', user.id || user._id);
     data.append('createdByName', user.username);
     data.append('createdByEmail', user.email);
@@ -139,6 +141,19 @@ function CreateEvent() {
               onChange={handleChange}
               className="w-full p-3 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition"
               required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">
+              Amount for regestration₹(Optional)
+            </label>
+            <input
+              type="number"
+              name="cost"
+              value={formData.cost}
+              onChange={handleChange}
+              className="w-full p-3 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition"
+              placeholder="Enter amount"
             />
           </div>
           <div>

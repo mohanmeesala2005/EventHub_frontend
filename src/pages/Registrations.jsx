@@ -39,6 +39,7 @@ const Registrations = () => {
               <th className="p-2 border">Name</th>
               <th className="p-2 border">Email</th>
               <th className="p-2 border">Phone</th>
+              <th className='p-2 border'>Payment ID</th>
             </tr>
           </thead>
           <tbody>
@@ -47,6 +48,7 @@ const Registrations = () => {
                 <td className="p-2 border">{reg.name}</td>
                 <td className="p-2 border">{reg.email}</td>
                 <td className="p-2 border">{reg.phone}</td>
+                <td className="p-2 border">{reg.paymentId}</td>
               </tr>
             ))}
           </tbody>

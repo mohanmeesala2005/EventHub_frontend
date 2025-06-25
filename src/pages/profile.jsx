@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     let user = null;
@@ -24,7 +25,7 @@ const Profile = () => {
         localStorage.removeItem('user');
         window.location.href = '/'; // Redirect to home page
     }
-
+    const navigate = useNavigate();
     return (
         <div className="max-w-md mx-auto mt-16 bg-gradient-to-br from-blue-100 to-purple-100 p-8 rounded-2xl shadow-2xl">
             <div className="flex flex-col items-center">
@@ -36,24 +37,34 @@ const Profile = () => {
                 <p className="mb-4 text-lg text-gray-700"><strong>Email:</strong> {user.email}</p>
                 <div>
                     <button
-                        className="bg-green-500 text-white px-5 py-2 rounded-lg shadow hover:bg-green-600 transition"
-                    >
-                        Edit Your Profile
-                    </button>
-                </div>
-                <div className="flex gap-4 mt-4">
-                    <button
                         className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700 transition"
                         onClick={() => window.location.href='/myEvents'}
                     >
                         View Your Events
                     </button>
+                </div>
+                <div>
+                    <button className="text-white bg-purple-700 px-4 py-2 rounded-lg my-2" onClick={() => navigate('/create-event')}>
+                        Add Your Events
+                    </button>
+                </div>
+                <div className="flex gap-4 mt-4">
+                    <div>
+                    
+                    <button
+                        className="bg-green-500 text-white px-5 py-2 rounded-lg shadow hover:bg-green-900 transition"
+                    >
+                        Edit Your Profile
+                    </button>
+                    </div>
+                    <div>
                     <button
                         onClick={handleLogout}
                         className="bg-red-500 text-white px-5 py-2 rounded-lg shadow hover:bg-red-600 transition"
                     >
                         Logout
                     </button>
+                    </div>
                 </div>
             </div>
         </div>
