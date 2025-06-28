@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { PrefetchPageLinks, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import API from '../api/axios';
-import Preloader from '../components/Preloader';
 
 function CreateEvent() {
   const [formData, setFormData] = useState({
@@ -14,7 +13,6 @@ function CreateEvent() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
-  const [loading,setLoading] = useState(true);
 
   useEffect(() => {
     const userData = localStorage.getItem('user');
@@ -23,11 +21,8 @@ function CreateEvent() {
     } else {
       setUser(JSON.parse(userData));
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000); // Simulate loading delay
   }, [navigate]);
-  if(loading) return <Preloader />;
+  
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -43,10 +38,7 @@ function CreateEvent() {
     e.preventDefault();
     setMessage('Creating event...');
 
-    if (!user) {
-      navigate('/login');
-      return;
-    }
+    const token = localStorage.getItem('token');
 
     const data = new FormData();
     data.append('title', formData.title);
@@ -61,16 +53,21 @@ function CreateEvent() {
     }
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await API.post('/events/create', data, {
+      
+      if (!token) {
+        setMessage('Invalid token. Please login again.');
+        return;
+      }
+      const response = await API.post('/events/create', data ,{
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${token}`,
-        },
+          'Content-Type'
+          : 'multipart/form-data',
+        }
       });
       if (response.status === 201) {
         alert('Event created successfully!');
-        setFormData({ title: '', description: '', date: '' });
+        setFormData({ title: '', description: '', date: '', cost: '' });
         setImage(null);
         setMessage('');
         navigate('/myEvents');
@@ -80,11 +77,14 @@ function CreateEvent() {
     } catch (error) {
       if (error.response && error.response.data && error.response.data.message) {
         setMessage(`Error: ${error.response.data.message}`);
+        console.log(error);
       } else {
         setMessage('Network or server error. Try again.');
+        console.error('Error creating event:', error);
       }
     }
   };
+
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-white to-purple-200">
@@ -106,15 +106,7 @@ function CreateEvent() {
             <label className="block text-sm font-semibold text-gray-700 mb-1">
               Event Name
             </label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full p-3 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition"
-              placeholder="Enter event name"
-              required
-            />
+            <input type="text" name="title" value={formData.title} onChange={handleChange} className="w-full p-3 border-2 border-purple-200 rounded-lg focus:outline-none focus:border-purple-500 transition" placeholder="Enter event name" required/>
           </div>
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-1">

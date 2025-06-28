@@ -46,7 +46,7 @@ const Events = () => {
             {events.map((event) => (
               <div
                 key={event._id}
-                className="border p-5 rounded-2xl shadow-xl bg-white flex flex-col transition-transform hover:scale-105 hover:shadow-2xl duration-200"
+                className="border p-5 rounded-2xl shadow-xl bg-white flex flex-col transition-transform hover:scale-105 hover:shadow-2xl duration-300"
               >
                 {/* Image display */}
                 <div className="mb-4 h-44 w-full bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center overflow-hidden">
@@ -60,7 +60,7 @@ const Events = () => {
                       className="object-cover h-full w-full"
                     />
                   ) : (
-                    <span className="text-gray-400">No Image</span>
+                    <span className="text-gray-400">Event Image</span>
                   )}
                 </div>
                 <h3 className="text-xl font-bold text-gray-700 mb-1 truncate">{event.title}</h3>
@@ -79,7 +79,7 @@ const Events = () => {
                 </p>
                 {event.createdByName !== user?.username && user ? (
                   <button
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg font-semibold shadow hover:from-green-500 hover:to-blue-500 transition-colors duration-200"
+                    className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-4 py-2 rounded-lg font-semibold shadow hover:from-green-500 hover:to-blue-500 transition-colors duration-300"
                     onClick={() => navigate(`/register/${event._id}`)}
                   >
                     Register

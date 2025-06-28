@@ -30,6 +30,8 @@ const MyEvents = () => {
   }, [navigate]);
 
   const handleDeleteEvent = async (eventid) => {
+    const confirmDelete = window.confirm("Are you sure! you want to delete this event?");
+    if(!confirmDelete) return;
     try {
       const token = localStorage.getItem('token');
       if (!token) {

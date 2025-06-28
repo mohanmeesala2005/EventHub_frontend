@@ -45,14 +45,14 @@ const Profile = () => {
                 </div>
                 <div>
                     <button className="text-white bg-purple-700 px-4 py-2 rounded-lg my-2" onClick={() => navigate('/create-event')}>
-                        Add Your Events
+                        Add Events
                     </button>
                 </div>
                 <div className="flex gap-4 mt-4">
                     <div>
                     
                     <button
-                        className="bg-green-500 text-white px-5 py-2 rounded-lg shadow hover:bg-green-900 transition"
+                        className="bg-green-500 text-white px-5 py-2 rounded-lg shadow hover:bg-green-900 transition" 
                     >
                         Edit Your Profile
                     </button>
