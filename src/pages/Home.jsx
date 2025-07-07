@@ -34,7 +34,7 @@ const Home = () => {
             Explore Events
           </a>
           {!user ? (
-            <p className='text-grey-500 my-2'><a className='text-blue-500' href='/login'>Login</a> for more details</p>
+            <p className='text-grey-500 my-2'><a className='text-blue-500' href='/login'>Login</a> to access exclusive features</p>
           ):null}
         </section>
       </main>
