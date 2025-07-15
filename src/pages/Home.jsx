@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   let user = null;
@@ -33,18 +34,18 @@ const Home = () => {
             <br />
             Join a vibrant community and never miss out on exciting happenings!
           </p>
-          <a
-            href="/events"
+          <Link
+            to="/events"
             className="inline-block bg-gradient-to-r from-blue-600 to-green-500 text-white px-8 py-3 rounded-lg shadow-lg hover:from-green-500 hover:to-blue-600 transition font-semibold text-lg"
           >
             Explore Events
-          </a>
+          </Link>
           {!user ? (
             <p className="text-grey-500 my-2">
-              <a className="text-blue-500" href="/login">
+              <Link className="text-blue-500" to="/login">
                 Login
-              </a>{" "}
-              to access exclusive features
+              </Link>{" "}
+              to register for the events.
             </p>
           ) : null}
         </section>
