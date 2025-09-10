@@ -6,7 +6,7 @@ const MyEvents = () => {
   const [events, setEvents] = useState([]);
   const [editingEvent, setEditingEvent] = useState(null);
   const [filteredEvents, setFilteredEvents] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // Add this missing state
+  const [searchQuery, setSearchQuery] = useState("");
   const [editForm, setEditForm] = useState({
     title: "",
     description: "",
