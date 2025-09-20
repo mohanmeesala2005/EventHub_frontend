@@ -30,9 +30,9 @@ const Navbar = () => {
         <div className="flex items-center space-x-3">
           <Link to="/" className="flex items-center space-x-3 group">
             <img src="/eventhub.png" alt="EventHub Logo" className="w-8 h-8 rounded-lg" />
-            <span className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
+            {/* <span className="text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
               EventHub
-            </span>
+            </span> */}
           </Link>
         </div>
 
